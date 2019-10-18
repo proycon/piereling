@@ -123,7 +123,7 @@ class AlpinoXMLFormat(CLAMMetaData):
     name = "Alpino XML"
     mimetype = 'text/xml'
 
-# CUSTOM_FORMATS = [ MyXMLFormat ]
+CUSTOM_FORMATS = [ TEIXMLFormat, ReStructuredTextFormat, MarkdownFormat, CONLLuFormat, AlpinoXMLFormat ]
 
 # ======== ENABLED VIEWERS ===========
 

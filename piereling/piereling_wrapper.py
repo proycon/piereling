@@ -53,7 +53,8 @@ outputdir = sys.argv[3]
 #If you make use of CUSTOM_FORMATS, you need to import your service configuration file here and set clam.common.data.CUSTOM_FORMATS
 #Moreover, you can import any other settings from your service configuration file as well:
 
-#from yourserviceconf import CUSTOM_FORMATS
+from piereling import CUSTOM_FORMATS
+clam.common.data.CUSTOM_FORMATS = CUSTOM_FORMATS
 
 #Obtain all data from the CLAM system (passed in $DATAFILE (clam.xml)), always pass CUSTOM_FORMATS as second argument if you make use of it!
 clamdata = clam.common.data.getclamdata(datafile)
@@ -65,6 +66,7 @@ clam.common.status.write(statusfile, "Starting...")
 
 
 def run(cmd):
+    print("Running " + cmd, file=sys.stderr)
     logfile = os.path.join(outputdir, "lastcommand.log")
     r = os.system(cmd + " 2> " + shellsafe(logfile))
     with open(logfile,'r',encoding='utf-8') as f:
@@ -87,6 +89,7 @@ def run(cmd):
 # most elegant method to set up your wrapper.
 
 for outputfile, outputtemplate_id in clamdata.program.getoutputfiles():
+    clam.common.status.write(statusfile, "Processing " + os.path.basename(str(outputfile)),50) # status update
     #(Use outputtemplate_id to match against output templates)
     #(You can access output metadata using outputfile.metadata[parameter_id])
     outputfilepath = str(outputfile) #example showing how to obtain the path to the file
@@ -98,7 +101,7 @@ for outputfile, outputtemplate_id in clamdata.program.getoutputfiles():
         run("rst2folia " + shellsafe(inputfilepath,'"') + " " + shellsafe(outputfilepath,'"') )
 
     elif outputtemplate_id == 'txt2folia_out':
-        run("txt2folia " + shellsafe(inputfilepath,'"') + " " + shellsafe(outputfilepath,'"') )
+        run("txt2folia -o '-' " + shellsafe(inputfilepath,'"') + " > " + shellsafe(outputfilepath,'"') )
 
     elif outputtemplate_id == 'md2folia_out':
         intermediatefile = outputfilepath.replace('.folia.xml','') + '.rst'
