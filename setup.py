@@ -18,19 +18,20 @@ setup(
     name = "piereling",
     version = "0.1",
     author = "Unspecified", #adapt this
-    description = ("Enter a description for your webservice here"),
+    description = ("Piereling is a webservice and web-application to convert between a variety of document formats, mostly from and to FoLiA XML. It is intended for NLP pipelines."),
     license = "GPL",
-    keywords = "clam webservice rest nlp computational_linguistics rest",
-    url = "https://somewhere.over.the.rainbow", #update this!
+    keywords = "webservice nlp computational_linguistics rest folia conversion",
+    url = "https://github.com/proycon/piereling", #update this!
     packages=['piereling'],
     long_description=getreadme(),
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Topic :: Internet :: WWW/HTTP :: WSGI :: Application",
         "Topic :: Text Processing :: Linguistic",
-        "Programming Language :: Python :: 2.7",  #remove this if needed!
         "Programming Language :: Python :: 3.4", #3.0, 3.1 and 3.2 are not supported by flask/CLAM
         "Programming Language :: Python :: 3.5", #3.0, 3.1 and 3.2 are not supported by flask/CLAM
+        "Programming Language :: Python :: 3.6", #3.0, 3.1 and 3.2 are not supported by flask/CLAM
+        "Programming Language :: Python :: 3.7", #3.0, 3.1 and 3.2 are not supported by flask/CLAM
         "Operating System :: POSIX",
         "Intended Audience :: Developers",
         "Intended Audience :: Science/Research",
@@ -38,5 +39,5 @@ setup(
     ],
     package_data = {'piereling':['*.wsgi','*.yml'] },
     include_package_data=True,
-    install_requires=['CLAM >= 2.3']
+    install_requires=['CLAM >= 2.3', 'FoLiA-tools >= 2.2.5']
 )
