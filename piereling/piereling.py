@@ -127,7 +127,7 @@ class EPUBFormat(CLAMMetaData):
     name = "EPUB"
     mimetype = 'application/epub+zip'
 
-CUSTOM_FORMATS = [ TEIXMLFormat, ReStructuredTextFormat, MarkdownFormat, CONLLuFormat, AlpinoXMLFormat ]
+CUSTOM_FORMATS = [ TEIXMLFormat, ReStructuredTextFormat, MarkdownFormat, CONLLuFormat, AlpinoXMLFormat, EPUBFormat ]
 
 # ======== ENABLED VIEWERS ===========
 
@@ -259,7 +259,7 @@ PROFILES = [
         ),
         OutputTemplate('naf2folia_out',FoLiAXMLFormat,'FoLiA XML output from NAF',
             extension='.folia.xml',
-            removeextensions=['.txt','.conll'],
+            removeextensions=['.naf.xml','.naf','.xml'],
             multi=True,
         ),
     ),
