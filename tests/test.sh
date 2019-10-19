@@ -96,7 +96,7 @@ function test2folia() {
                 OK=0
             else
                 cat $3
-                extension="${filename#*.}"
+                extension="${3#*.}"
                 if [[ $extension == "folia.xml" ]]; then
                     echo " (validating output)">&2
                     if ! foliavalidator $3; then
