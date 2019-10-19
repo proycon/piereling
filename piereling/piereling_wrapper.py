@@ -179,6 +179,27 @@ for outputfile, outputtemplate_id in clamdata.program.getoutputfiles():
     elif outputtemplate_id == 'folia2html_out':
         run("folia2html " + shellsafe(inputfilepath,'"') + " > " + shellsafe(outputfilepath,'"') )
 
+    elif outputtemplate_id == 'foliavalidator_out':
+        validationmode = clamdata.get('validationmode','fail')
+        args = []
+        if validationmode == "continue":
+            args.append( "-i")
+        if clamdata.get('autodeclare',False):
+            args.append( "-a")
+        if clamdata.get('deep',False):
+            args.append( "-d")
+        if clamdata.get('quick',False):
+            args.append( "-q")
+        if clamdata.get('fixunassignedprocessor',False):
+            args.append( "--fixunassignedprocessor")
+        run("foliavalidator " + " ".join(args) + " " + shellsafe(inputfilepath,'"') + " 2> " + shellsafe(outputfilepath,'"') )
+
+    elif outputtemplate_id == 'foliaupgrade_out':
+        args = []
+        if clamdata.get('fixunassignedprocessor',False):
+            args.append( "--fixunassignedprocessor")
+        run("foliaupgrade " + " ".join(args) + " " + shellsafe(inputfilepath,'"') + " 2> " + shellsafe(outputfilepath,'"') )
+
 clam.common.status.write(statusfile, "Done",100) # status update
 
 sys.exit(0) #non-zero exit codes indicate an error and will be picked up by CLAM as such!

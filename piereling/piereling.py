@@ -322,6 +322,27 @@ PROFILES = [
             multi=True,
         ),
     ),
+    Profile(
+        InputTemplate('foliavalidator_in', FoLiAXMLFormat,"FoLiA XML input for validation",
+            extension='.folia.xml',
+            multi=True,
+        ),
+        OutputTemplate('foliavalidator_out',PlainTextFormat,'Validation report from FoLiA input',
+            SetMetaField('encoding','utf-8'), #note that encoding is required if you work with PlainTextFormat
+            removeextensions=['.folia.xml','.xml'],
+            extension='.log',
+            multi=True,
+        ),
+    ),
+    Profile(
+        InputTemplate('foliaupgrade_in', FoLiAXMLFormat,"FoLiA XML input for upgrade to a newer FoLiA",
+            extension='.folia.xml',
+            multi=True,
+        ),
+        OutputTemplate('foliaupgrade_out',FoLiAXMLFormat,'Upgraded FoLiA XML output',
+            multi=True,
+        ),
+    ),
 ]
 
 # ======== COMMAND ===========
@@ -361,11 +382,18 @@ COMMAND = WEBSERVICEDIR + "/piereling_wrapper.py $DATAFILE $STATUSFILE $OUTPUTDI
 #are a list of instances from common/parameters.py
 
 PARAMETERS =  [
-    ('Parameters', [
-        #BooleanParameter(id='createlexicon',name='Create Lexicon',description='Generate a separate overall lexicon?'),
+    ('Validation Parameters', [
+        ChoiceParameter(id='validationmode',name='Validation mode',description='Validation behaviour', choices=[('fail','Fail on validation errors'),('continue','Continue on validation errors')],default='fail'),
+        BooleanParameter(id='autodeclare',name='Autodeclare',description='Attempt to automatically declare missing annotations'),
+        BooleanParameter(id='deep',name='Deep Validation',description='Do deep validation (verifies tag sets)'),
+        BooleanParameter(id='quick',name='Quicker Validation',description='Do quicker validation by skipping the check against the RelaxNG schema'),
         #ChoiceParameter(id='casesensitive',name='Case Sensitivity',description='Enable case sensitive behaviour?', choices=['yes','no'],default='no'),
         #StringParameter(id='author',name='Author',description='Sign output metadata with the specified author name',maxlength=255),
-    ] )
+    ] ),
+    ('Upgrade Parameters', [
+        BooleanParameter(id='fixunassignedprocessor',name='Fix unassigned processor',description='Fixes invalid FoLiA that does not explicitly assign a processor to an annotation when multiple processors are possible (and there is therefore no default). The last processor will be used in this case.'),
+    ] ),
+
 ]
 
 

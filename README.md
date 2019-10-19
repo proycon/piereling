@@ -74,6 +74,11 @@ document formats, it is beyond the scope of his project to offer those in the we
 * to **ReStructuredText**, uses ``folia2rst`` from [FoLiA-Tools](https://github.com/proycon/folia-tools).
     * Information loss: Structure and mark-up will be preserved, but annotations will be lost!
 
+### Validation & Upgrade
+
+* FoLiA validation; using ``foliavalidator`` from [FoLiA-Tools](https://github.com/proycon/folia-tools).
+* FoLiA upgrade; upgrades an older FoLiA version to a newer one (mostly inteneded for FoLiA v1 to FoLiA v2); uses ``foliaupgrade`` from [FoLiA-Tools](https://github
+
 ## Installation
 
 Install using pip (preferably in a Python virtual environment):

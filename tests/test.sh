@@ -86,6 +86,11 @@ function test2folia() {
 test2folia txt2folia test.txt test.folia.xml
 test2folia txt2folia test2.txt test2.folia.xml
 test2folia rst2folia test.rst test.folia.xml
+test2folia md2folia test.md test.folia.xml 7
+test2folia docx2folia test.docx test.folia.xml 7
+test2folia odt2folia test.docx test.folia.xml 7
+test2folia foliavalidator partial-legacy.1.5.folia.xml partial-legacy.1.5.folia.xml 10
+test2folia foliaupgrade partial-legacy.1.5.folia.xml partial-legacy.1.5.folia.xml 10
 
 echo "Stopping piereling service" >&2
 kill $(ps aux | grep 'piereling' | awk '{print $2}') 2>/dev/null
