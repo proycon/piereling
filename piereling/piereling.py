@@ -20,7 +20,7 @@
 from __future__ import print_function, unicode_literals, division, absolute_import
 
 from clam.common.parameters import BooleanParameter, StringParameter, ChoiceParameter, IntegerParameter, StaticParameter
-from clam.common.formats import FoLiAXMLFormat, PlainTextFormat, MSWordFormat, HTMLFormat
+from clam.common.formats import FoLiAXMLFormat, PlainTextFormat, MSWordFormat, HTMLFormat, PDFFormat
 from clam.common.converters import *
 from clam.common.viewers import *
 from clam.common.data import Profile, InputTemplate, OutputTemplate, loadconfig, CLAMMetaData, SetMetaField

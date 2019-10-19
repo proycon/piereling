@@ -1,0 +1,2 @@
+CLAM >= 2.3
+FoLiA-tools >= 2.2.5
