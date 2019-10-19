@@ -118,6 +118,16 @@ for outputfile, outputtemplate_id in clamdata.program.getoutputfiles():
         run("pandoc --from=markdown --to=rst " + shellsafe(inputfilepath,'"') + " " + shellsafe(intermediatefile,'"') )
         run("rst2folia " + shellsafe(intermediatefile,'"') + " " + shellsafe(outputfilepath,'"') )
 
+    elif outputtemplate_id == 'pdf2folia_out':
+        intermediatefile = outputfilepath.replace('.folia.xml','') + '.txt'
+        run("pdftotext -nopagebrk " + shellsafe(inputfilepath,'"') + " - > " + shellsafe(intermediatefile,'"') )
+        run("txt2folia -o '-' " + shellsafe(intermediatefile,'"') + " > " + shellsafe(outputfilepath,'"') )
+
+        #to be implemented:
+        #intermediatefile = outputfilepath.replace('.folia.xml','') + '.pdf2xml.xml'
+        #run("pdftohtml -s -i -noframes -stdout -xml " + shellsafe(inputfilepath,'"') + " " + shellsafe(intermediatefile,'"') )
+        #run("pdfxml2folia " + shellsafe(intermediatefile,'"') + " " + shellsafe(outputfilepath,'"') )
+
     elif outputtemplate_id == 'docx2folia_out':
         intermediatefile = outputfilepath.replace('.folia.xml','') + '.rst'
         run("pandoc --from=docx --to=rst " + shellsafe(inputfilepath,'"') + " " + shellsafe(intermediatefile,'"') )
@@ -127,6 +137,16 @@ for outputfile, outputtemplate_id in clamdata.program.getoutputfiles():
         intermediatefile = outputfilepath.replace('.folia.xml','') + '.rst'
         run("pandoc --from=odt --to=rst " + shellsafe(inputfilepath,'"') + " " + shellsafe(intermediatefile,'"') )
         run("rst2folia " + shellsafe(intermediatefile,'"') + " " + shellsafe(outputfilepath,'"') )
+
+    elif outputtemplate_id == 'epub2folia_out':
+        intermediatefile = outputfilepath.replace('.folia.xml','') + '.rst'
+        run("pandoc --from=epub --to=rst " + shellsafe(inputfilepath,'"') + " " + shellsafe(intermediatefile,'"') )
+        run("rst2folia " + shellsafe(intermediatefile,'"') + " " + shellsafe(outputfilepath,'"') )
+
+    elif outputtemplate_id == 'html2folia_out':
+        intermediatefile = outputfilepath.replace('.folia.xml','') + '.rst'
+        run("pandoc --from=html --to=rst " + shellsafe(inputfilepath,'"') + " " + shellsafe(intermediatefile,'"') )
+        run("html2folia " + shellsafe(intermediatefile,'"') + " " + shellsafe(outputfilepath,'"') )
 
     elif outputtemplate_id == 'conllu2folia_out':
         run("conllu2folia --outputfile " + shellsafe(outputfilepath,'"') + " " +  shellsafe(inputfilepath,'"') )
@@ -152,6 +172,12 @@ for outputfile, outputtemplate_id in clamdata.program.getoutputfiles():
 
     elif outputtemplate_id == 'folia2txt_out':
         run("folia2txt " + shellsafe(inputfilepath,'"') + " > " + shellsafe(outputfilepath,'"') )
+
+    elif outputtemplate_id == 'folia2rst_out':
+        run("folia2rst " + shellsafe(inputfilepath,'"') + " " + shellsafe(outputfilepath,'"') )
+
+    elif outputtemplate_id == 'folia2html_out':
+        run("folia2html " + shellsafe(inputfilepath,'"') + " > " + shellsafe(outputfilepath,'"') )
 
 clam.common.status.write(statusfile, "Done",100) # status update
 

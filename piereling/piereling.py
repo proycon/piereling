@@ -20,7 +20,7 @@
 from __future__ import print_function, unicode_literals, division, absolute_import
 
 from clam.common.parameters import BooleanParameter, StringParameter, ChoiceParameter, IntegerParameter, StaticParameter
-from clam.common.formats import FoLiAXMLFormat, PlainTextFormat, MSWordFormat
+from clam.common.formats import FoLiAXMLFormat, PlainTextFormat, MSWordFormat, HTMLFormat
 from clam.common.converters import *
 from clam.common.viewers import *
 from clam.common.data import Profile, InputTemplate, OutputTemplate, loadconfig, CLAMMetaData, SetMetaField
@@ -123,6 +123,10 @@ class AlpinoXMLFormat(CLAMMetaData):
     name = "Alpino XML"
     mimetype = 'text/xml'
 
+class EPUBFormat(CLAMMetaData):
+    name = "EPUB"
+    mimetype = 'application/epub+zip'
+
 CUSTOM_FORMATS = [ TEIXMLFormat, ReStructuredTextFormat, MarkdownFormat, CONLLuFormat, AlpinoXMLFormat ]
 
 # ======== ENABLED VIEWERS ===========
@@ -207,7 +211,29 @@ PROFILES = [
         ),
     ),
     Profile(
-        InputTemplate('pdf2folia_in', MSWordFormat,"PDF with embedded text (pdf) for conversion to FoLiA",
+        InputTemplate('epub2folia_in', EPUBFormat,"OpenDocument Text Document (odt) for conversion to FoLiA",
+            extension='.epub',
+            multi=True,
+        ),
+        OutputTemplate('epub2folia_out',FoLiAXMLFormat,'FoLiA XML output (untokenised) from EPUB',
+            extension='.folia.xml',
+            removeextensions=['.epub'],
+            multi=True,
+        ),
+    ),
+    Profile(
+        InputTemplate('html2folia_in', HTMLFormat,"HTML for conversion to FoLiA",
+            extension='.html',
+            multi=True,
+        ),
+        OutputTemplate('html2folia_out',FoLiAXMLFormat,'FoLiA XML output (untokenised) from HTML',
+            extension='.folia.xml',
+            removeextensions=['.html'],
+            multi=True,
+        ),
+    ),
+    Profile(
+        InputTemplate('pdf2folia_in', PDFFormat,"PDF with embedded text (pdf) for conversion to FoLiA",
             extension='.pdf',
             multi=True,
         ),
@@ -249,18 +275,6 @@ PROFILES = [
         ),
     ),
     Profile(
-        InputTemplate('folia2txt_in', MarkdownFormat,"FoLiA XML input for conversion to text",
-            extension='.folia.xml',
-            multi=True,
-        ),
-        OutputTemplate('folia2txt_out',PlainTextFormat,'Plain text output from FoLiA input',
-            SetMetaField('encoding','utf-8'), #note that encoding is required if you work with PlainTextFormat
-            removeextensions=['.folia.xml','.xml'],
-            extension='.txt',
-            multi=True,
-        ),
-    ),
-    Profile(
         InputTemplate('tei2folia_in', TEIXMLFormat,"TEI P5 XML input for conversion to FoLiA",
             extension='.xml',
             #filename='filename.txt',
@@ -272,7 +286,42 @@ PROFILES = [
             extension='.folia.xml', #set an extension or set a filename:
             multi=True
         ),
-    )
+    ),
+    Profile(
+        InputTemplate('folia2txt_in', FoLiAXMLFormat,"FoLiA XML input for conversion to text",
+            extension='.folia.xml',
+            multi=True,
+        ),
+        OutputTemplate('folia2txt_out',PlainTextFormat,'Plain text output from FoLiA input',
+            SetMetaField('encoding','utf-8'), #note that encoding is required if you work with PlainTextFormat
+            removeextensions=['.folia.xml','.xml'],
+            extension='.txt',
+            multi=True,
+        ),
+    ),
+    Profile(
+        InputTemplate('folia2rst_in', FoLiAXMLFormat,"FoLiA XML input for conversion to text",
+            extension='.folia.xml',
+            multi=True,
+        ),
+        OutputTemplate('folia2rst_out',ReStructuredTextFormat,'Plain text output from FoLiA input',
+            SetMetaField('encoding','utf-8'), #note that encoding is required if you work with PlainTextFormat
+            removeextensions=['.folia.xml','.xml'],
+            extension='.rst',
+            multi=True,
+        ),
+    ),
+    Profile(
+        InputTemplate('folia2html_in', FoLiAXMLFormat,"FoLiA XML input for conversion to HTML",
+            extension='.folia.xml',
+            multi=True,
+        ),
+        OutputTemplate('folia2html_out',HTMLFormat,'HTML output from FoLiA input',
+            removeextensions=['.folia.xml','.xml'],
+            extension='.html',
+            multi=True,
+        ),
+    ),
 ]
 
 # ======== COMMAND ===========
