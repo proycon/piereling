@@ -123,11 +123,16 @@ class AlpinoXMLFormat(CLAMMetaData):
     name = "Alpino XML"
     mimetype = 'text/xml'
 
+class NAFXMLFormat(CLAMMetaData):
+    attributes = {'encoding':'utf-8'}
+    name = "NAF XML"
+    mimetype = 'text/xml'
+
 class EPUBFormat(CLAMMetaData):
     name = "EPUB"
     mimetype = 'application/epub+zip'
 
-CUSTOM_FORMATS = [ TEIXMLFormat, ReStructuredTextFormat, MarkdownFormat, CONLLuFormat, AlpinoXMLFormat, EPUBFormat ]
+CUSTOM_FORMATS = [ TEIXMLFormat, ReStructuredTextFormat, MarkdownFormat, CONLLuFormat, AlpinoXMLFormat, NAFXMLFormat, EPUBFormat ]
 
 # ======== ENABLED VIEWERS ===========
 
@@ -244,7 +249,7 @@ PROFILES = [
         ),
     ),
     Profile(
-        InputTemplate('conllu2folia_in', MSWordFormat,"CONLL-U format for conversion to FoLiA",
+        InputTemplate('conllu2folia_in', CONLLuFormat,"CONLL-U format for conversion to FoLiA",
             multi=True,
         ),
         OutputTemplate('conllu2folia_out',FoLiAXMLFormat,'FoLiA XML output from CONLL-U',
@@ -254,7 +259,7 @@ PROFILES = [
         ),
     ),
     Profile(
-        InputTemplate('naf2folia_in', MSWordFormat,"NAF XML for conversion to FoLiA",
+        InputTemplate('naf2folia_in', NAFXMLFormat,"NAF XML for conversion to FoLiA",
             multi=True,
         ),
         OutputTemplate('naf2folia_out',FoLiAXMLFormat,'FoLiA XML output from NAF',
@@ -300,7 +305,7 @@ PROFILES = [
         ),
     ),
     Profile(
-        InputTemplate('folia2rst_in', FoLiAXMLFormat,"FoLiA XML input for conversion to text",
+        InputTemplate('folia2rst_in', FoLiAXMLFormat,"FoLiA XML input for conversion to ReStructuredText",
             extension='.folia.xml',
             multi=True,
         ),
