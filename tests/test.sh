@@ -112,6 +112,10 @@ function test2folia() {
                 fi
                 #delete the project so we don't pollute the server
                 curl $CURLARGS http://$HOSTNAME:8080/$1/output/error.log > $1.log
+                if [ $OK -eq 0 ]; then
+                    echo " (outputting full error.log because of failure)">&2
+                    cat $1.log >&2
+                fi
                 curl $CURLARGS -X DELETE http://$HOSTNAME:8080/$1 > curlout
                 cd ..
             fi
