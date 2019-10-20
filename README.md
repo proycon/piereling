@@ -1,3 +1,7 @@
+<div align="center">
+  <img src="https://raw.githubusercontent.com/proycon/piereling/master/logo.png" width="200" />
+</div>
+
 [![Language Machines Badge](http://applejack.science.ru.nl/lamabadge.php/piereling)](http://applejack.science.ru.nl/languagemachines/)
 [![Build Status](https://travis-ci.com/proycon/piereling.svg?branch=master)](https://travis-ci.com/proycon/piereling)
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
