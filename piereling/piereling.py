@@ -22,7 +22,7 @@ from __future__ import print_function, unicode_literals, division, absolute_impo
 from clam.common.parameters import BooleanParameter, StringParameter, ChoiceParameter, IntegerParameter, StaticParameter
 from clam.common.formats import FoLiAXMLFormat, PlainTextFormat, MSWordFormat, HTMLFormat, PDFFormat
 from clam.common.converters import *
-from clam.common.viewers import *
+from clam.common.viewers import FLATViewer, FoLiAViewer
 from clam.common.data import Profile, InputTemplate, OutputTemplate, loadconfig, CLAMMetaData, SetMetaField
 from clam.common.digestauth import pwhash
 import clam
@@ -57,6 +57,8 @@ SYSTEM_VERSION = 0.1
 
 #How to reach the authors?
 #SYSTEM_EMAIL = ""
+
+FLATURL = None
 
 #This invokes the automatic loader, do not change it;
 #it will try to find a file named $system_id.$hostname.yml or just $hostname.yml, where $hostname
@@ -175,6 +177,8 @@ PROFILES = [
             multi=True,
         ),
         OutputTemplate('txt2folia_out',FoLiAXMLFormat,'FoLiA XML output (untokenised) from plain text',
+            FLATViewer(url=FLATURL, mode='viewer') if FLATURL else None,
+            FoLiAViewer(),
             extension='.folia.xml',
             removeextensions=['.txt'],
             multi=True,
@@ -186,6 +190,8 @@ PROFILES = [
             multi=True,
         ),
         OutputTemplate('rst2folia_out',FoLiAXMLFormat,'FoLiA XML output (untokenised) from ReStructuredText input',
+            FLATViewer(url=FLATURL, mode='viewer') if FLATURL else None,
+            FoLiAViewer(),
             extension='.folia.xml',
             removeextensions=['.rst'],
             multi=True,
@@ -198,6 +204,8 @@ PROFILES = [
             multi=True,
         ),
         OutputTemplate('md2folia_out',FoLiAXMLFormat,'FoLiA XML output (untokenised) from Markdown input',
+            FLATViewer(url=FLATURL, mode='viewer') if FLATURL else None,
+            FoLiAViewer(),
             extension='.folia.xml',
             removeextensions=['.md'],
             multi=True,
@@ -209,6 +217,8 @@ PROFILES = [
             multi=True,
         ),
         OutputTemplate('docx2folia_out',FoLiAXMLFormat,'FoLiA XML output (untokenised) from MS Word input',
+            FLATViewer(url=FLATURL, mode='viewer') if FLATURL else None,
+            FoLiAViewer(),
             extension='.folia.xml',
             removeextensions=['.docx'],
             multi=True,
@@ -220,6 +230,8 @@ PROFILES = [
             multi=True,
         ),
         OutputTemplate('odt2folia_out',FoLiAXMLFormat,'FoLiA XML output (untokenised) from OpenDocument Text',
+            FLATViewer(url=FLATURL, mode='viewer') if FLATURL else None,
+            FoLiAViewer(),
             extension='.folia.xml',
             removeextensions=['.odt'],
             multi=True,
@@ -231,6 +243,8 @@ PROFILES = [
             multi=True,
         ),
         OutputTemplate('epub2folia_out',FoLiAXMLFormat,'FoLiA XML output (untokenised) from EPUB',
+            FLATViewer(url=FLATURL, mode='viewer') if FLATURL else None,
+            FoLiAViewer(),
             extension='.folia.xml',
             removeextensions=['.epub'],
             multi=True,
@@ -242,6 +256,8 @@ PROFILES = [
             multi=True,
         ),
         OutputTemplate('latex2folia_out',FoLiAXMLFormat,'FoLiA XML output (untokenised) from LaTeX',
+            FLATViewer(url=FLATURL, mode='viewer') if FLATURL else None,
+            FoLiAViewer(),
             extension='.folia.xml',
             removeextensions=['.tex'],
             multi=True,
@@ -254,6 +270,8 @@ PROFILES = [
             multi=True,
         ),
         OutputTemplate('mediawiki2folia_out',FoLiAXMLFormat,'FoLiA XML output (untokenised) from MediaWiki',
+            FLATViewer(url=FLATURL, mode='viewer') if FLATURL else None,
+            FoLiAViewer(),
             extension='.folia.xml',
             removeextensions=['.txt'],
             multi=True,
@@ -265,6 +283,8 @@ PROFILES = [
             multi=True,
         ),
         OutputTemplate('docbook2folia_out',FoLiAXMLFormat,'FoLiA XML output (untokenised) from Docbook',
+            FLATViewer(url=FLATURL, mode='viewer') if FLATURL else None,
+            FoLiAViewer(),
             extension='.folia.xml',
             removeextensions=['.xml','.dbk'],
             multi=True,
@@ -277,6 +297,8 @@ PROFILES = [
             multi=True,
         ),
         OutputTemplate('html2folia_out',FoLiAXMLFormat,'FoLiA XML output (untokenised) from HTML',
+            FLATViewer(url=FLATURL, mode='viewer') if FLATURL else None,
+            FoLiAViewer(),
             extension='.folia.xml',
             removeextensions=['.html','.htm'],
             multi=True,
@@ -288,6 +310,8 @@ PROFILES = [
             multi=True,
         ),
         OutputTemplate('pdf2folia_out',FoLiAXMLFormat,'FoLiA XML output (untokenised) from PDF',
+            FLATViewer(url=FLATURL, mode='viewer') if FLATURL else None,
+            FoLiAViewer(),
             extension='.folia.xml',
             removeextensions=['.pdf'],
             multi=True,
@@ -298,6 +322,8 @@ PROFILES = [
             multi=True,
         ),
         OutputTemplate('conllu2folia_out',FoLiAXMLFormat,'FoLiA XML output from CONLL-U',
+            FLATViewer(url=FLATURL, mode='viewer') if FLATURL else None,
+            FoLiAViewer(),
             extension='.folia.xml',
             removeextensions=['.txt','.conll'],
             multi=True,
@@ -308,6 +334,8 @@ PROFILES = [
             multi=True,
         ),
         OutputTemplate('naf2folia_out',FoLiAXMLFormat,'FoLiA XML output from NAF',
+            FLATViewer(url=FLATURL, mode='viewer') if FLATURL else None,
+            FoLiAViewer(),
             extension='.folia.xml',
             removeextensions=['.naf.xml','.naf','.xml'],
             multi=True,
@@ -319,6 +347,8 @@ PROFILES = [
             multi=True,
         ),
         OutputTemplate('alpino2folia_out',FoLiAXMLFormat,'FoLiA XML output from NAF',
+            FLATViewer(url=FLATURL, mode='viewer') if FLATURL else None,
+            FoLiAViewer(),
             extension='.folia.xml',
             removeextensions=['.xml'],
             multi=True,
@@ -332,6 +362,8 @@ PROFILES = [
         ),
         #------------------------------------------------------------------------------------------------------------------------
         OutputTemplate('tei2folia_out',FoLiAXMLFormat,'FoLiA XML output from TEI input',
+            FLATViewer(url=FLATURL, mode='viewer') if FLATURL else None,
+            FoLiAViewer(),
             removeextensions=['.xml'],
             extension='.folia.xml', #set an extension or set a filename:
             multi=True
@@ -390,6 +422,8 @@ PROFILES = [
             multi=True,
         ),
         OutputTemplate('foliaupgrade_out',FoLiAXMLFormat,'Upgraded FoLiA XML output',
+            FLATViewer(url=FLATURL, mode='viewer') if FLATURL else None,
+            FoLiAViewer(),
             multi=True,
         ),
     ),

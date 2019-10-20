@@ -54,8 +54,7 @@ those in the webservice.
     * Information loss: Unknown
 * from **TEI P5 XML** (Text Encoding Initiative); uses ``tei2folia`` from [FoLiA-Tools](https://github.com/proycon/folia-tools).
     * TEI is a very extensive and flexible format with many different forms
-    * Information loss: Our converter will only work for a certain subset of TEI and may fail on others. Though we
-      support a lot of TEI elements, there is also still a lot that is not covered by the converter. There will be
+    * Information loss: Our converter will only work for a certain subset of TEI, mostly equivalent to TEI Lite, and may fail on others. Though we support a lot of TEI elements, there is also still a lot that is not covered by the converter. There will be
       comments in the output for anything that could not be converted properly.
 * from **PDF**; uses ``pdftotext`` from [Poppler](https://poppler.freedesktop.org) and then ``txt2folia`` from FoLiA-tools.
     * Only works for PDFs with embedded text, not for imagery which would require OCR!

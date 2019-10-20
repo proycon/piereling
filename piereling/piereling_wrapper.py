@@ -129,11 +129,11 @@ for outputfile, outputtemplate_id in clamdata.program.getoutputfiles():
         intermediatefile = outputfilepath.replace('.folia.xml','') + '.rst'
         flavour = 'markdown'
         try:
-            if inputfile.metadata['flavour'] == 'github': #Example showing how to obtain metadata parameters
+            if inputfile.metadata['flavour'] == 'github':
                 flavour = 'markdown_github'
-            elif inputfile.metadata['flavour'] == 'strict': #Example showing how to obtain metadata parameters
+            elif inputfile.metadata['flavour'] == 'strict':
                 flavour = 'markdown_strict'
-            elif inputfile.metadata['flavour'] == 'normal': #Example showing how to obtain metadata parameters
+            elif inputfile.metadata['flavour'] == 'normal':
                 flavour = 'markdown'
         except KeyError:
             pass
