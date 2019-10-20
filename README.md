@@ -129,3 +129,9 @@ printed.
 Piereling is a RESTful webservice and also provides a web-interface for human end users (powered by
 [CLAM](https://proycon.github.io/clam)). If you instead seek to do conversions locally on the command line then you have
 no need for Piereling and should simply invoke the aforementioned conversion tools directly.
+
+## Related Tools
+
+If you want to convert to TEI, or use TEI as a pivot format for conversions, then you can look at
+[OxGarage](https://oxgarage2.tei-c.org/) ([source](https://github.com/TEIC/oxgarage/)) and
+[OpenConvert](https://github.com/INL/OpenConvert).
