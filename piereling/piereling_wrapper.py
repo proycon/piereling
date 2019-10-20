@@ -142,7 +142,7 @@ for outputfile, outputtemplate_id in clamdata.program.getoutputfiles():
 
     elif outputtemplate_id == 'pdf2folia_out':
         intermediatefile = outputfilepath.replace('.folia.xml','') + '.txt'
-        run("pdftotext -nopagebrk " + shellsafe(inputfilepath,'"') + " - > " + shellsafe(intermediatefile,'"') )
+        run("pdftotext -nopgbrk -nodiag " + shellsafe(inputfilepath,'"') + " - > " + shellsafe(intermediatefile,'"') )
         run("txt2folia -o '-' --id=" + shellsafe(docid, '"') + " " + shellsafe(intermediatefile,'"') + " > " + shellsafe(outputfilepath,'"') )
         #to be implemented:
         #intermediatefile = outputfilepath.replace('.folia.xml','') + '.pdf2xml.xml'
@@ -185,7 +185,7 @@ for outputfile, outputtemplate_id in clamdata.program.getoutputfiles():
         run("rst2folia " + " ".join(rst2folia_args) + " " + shellsafe(intermediatefile,'"') + " " + shellsafe(outputfilepath,'"') )
 
     elif outputtemplate_id == 'conllu2folia_out':
-        run("conllu2folia --outputfile " + shellsafe(outputfilepath,'"') + " > " +  shellsafe(inputfilepath,'"') )
+        run("conllu2folia --id=" + shellsafe(docid, '"') + " --outputfile " + shellsafe(outputfilepath,'"') + " " +  shellsafe(inputfilepath,'"') )
 
     elif outputtemplate_id == 'alpino2folia_out':
         run("alpino2folia " + shellsafe(inputfilepath,'"') + " " + shellsafe(outputfilepath,'"') )
@@ -231,10 +231,10 @@ for outputfile, outputtemplate_id in clamdata.program.getoutputfiles():
         run("foliavalidator " + " ".join(args) + " " + shellsafe(inputfilepath,'"') + " 2> " + shellsafe(outputfilepath,'"') )
 
     elif outputtemplate_id == 'foliaupgrade_out':
-        args = []
+        args = ["--dryrun" ] #we set this so the original file isn't overwritten but we get output on stdout instead
         if clamdata.get('fixunassignedprocessor',False):
             args.append( "--fixunassignedprocessor")
-        run("foliaupgrade " + " ".join(args) + " " + shellsafe(inputfilepath,'"') + " 2> " + shellsafe(outputfilepath,'"') )
+        run("foliaupgrade " + " ".join(args) + " " + shellsafe(inputfilepath,'"') + " > " + shellsafe(outputfilepath,'"') )
 
 clam.common.status.write(statusfile, "Done",100) # status update
 

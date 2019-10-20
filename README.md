@@ -91,7 +91,7 @@ those in the webservice.
 ### Validation & Upgrade
 
 * FoLiA validation; using ``foliavalidator`` from [FoLiA-Tools](https://github.com/proycon/folia-tools).
-* FoLiA upgrade; upgrades an older FoLiA version to a newer one (mostly inteneded for FoLiA v1 to FoLiA v2); uses ``foliaupgrade`` from [FoLiA-Tools](https://github
+* FoLiA upgrade; upgrades an older FoLiA version to a newer one (mostly inteneded for FoLiA v1 to FoLiA v2); uses ``foliaupgrade`` from [FoLiA-Tools](https://github.com/proycon/foliatools).
 
 ## Installation
 

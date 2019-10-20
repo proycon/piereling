@@ -42,10 +42,10 @@ WEBSERVICEDIR = os.path.dirname(os.path.abspath(__file__)) #directory where this
 #The System ID, a short alphanumeric identifier for internal use only
 SYSTEM_ID = "piereling"
 #System name, the way the system is presented to the world
-SYSTEM_NAME = "piereling"
+SYSTEM_NAME = "Piereling"
 
 #An informative description for this system (this should be fairly short, about one paragraph, and may not contain HTML)
-SYSTEM_DESCRIPTION = "A document converter for linguistic pipelines"
+SYSTEM_DESCRIPTION = "Piereling can convert a wide variety of document formats to FoLiA XML, and from FoLiA XML to various formats. Data conversions such as these provide the groundwork for Natural Language Processing pipelines. It relies on numerous specialised conversion tools in combination with notable third-party tools such as pandoc."
 
 #A version label of the underlying tool and/or this CLAM wrapper
 #(If you can derive this dynamically then that is strongly recommended!)
@@ -53,10 +53,10 @@ SYSTEM_VERSION = 0.1
 
 #The author(s) of the underlying tool and/or this CLAM wrapper
 #(If you can derive this dynamically then that is strongly recommended!)
-#SYSTEM_AUTHOR = ""
+SYSTEM_AUTHOR = "Maarten van Gompel"
 
 #How to reach the authors?
-#SYSTEM_EMAIL = ""
+SYSTEM_EMAIL = "proycon@anaproy.nl"
 
 FLATURL = None
 
@@ -103,7 +103,7 @@ STYLE = 'classic'
 class TEIXMLFormat(CLAMMetaData):
     attributes = {}
     name = "TEI P5 XML"
-    mimetype = 'text/xml'
+    mimetype = 'text/tei+xml'
 
 class ReStructuredTextFormat(CLAMMetaData):
     attributes = {'encoding':'utf-8'}
@@ -123,12 +123,12 @@ class CONLLuFormat(CLAMMetaData):
 class AlpinoXMLFormat(CLAMMetaData):
     attributes = {'encoding':'utf-8'}
     name = "Alpino XML"
-    mimetype = 'text/xml'
+    mimetype = 'text/alpino+xml'
 
 class NAFXMLFormat(CLAMMetaData):
     attributes = {'encoding':'utf-8'}
     name = "NAF XML"
-    mimetype = 'text/xml'
+    mimetype = 'text/naf+xml'
 
 class EPUBFormat(CLAMMetaData):
     name = "EPUB"
@@ -325,7 +325,7 @@ PROFILES = [
             FLATViewer(url=FLATURL, mode='viewer') if FLATURL else None,
             FoLiAViewer(),
             extension='.folia.xml',
-            removeextensions=['.txt','.conll'],
+            removeextensions=['.txt','.conll','.conllu','.tsv','.csv'],
             multi=True,
         ),
     ),
