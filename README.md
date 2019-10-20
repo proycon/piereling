@@ -1,5 +1,5 @@
 [![Language Machines Badge](http://applejack.science.ru.nl/lamabadge.php/piereling)](http://applejack.science.ru.nl/languagemachines/)
-[![Build Status](https://travis-ci.org/proycon/piereling.svg?branch=master)](https://travis-ci.org/proycon/piereling)
+[![Build Status](https://travis-ci.com/proycon/piereling.svg?branch=master)](https://travis-ci.com/proycon/piereling)
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 # Piereling
 
@@ -73,6 +73,11 @@ document formats, it is beyond the scope of his project to offer those in the we
     * Information loss: Minimal, but information is represented purely for presentational purposes rather than focussing on semantics.
 * to **ReStructuredText**, uses ``folia2rst`` from [FoLiA-Tools](https://github.com/proycon/folia-tools).
     * Information loss: Structure and mark-up will be preserved, but annotations will be lost!
+
+### Validation & Upgrade
+
+* FoLiA validation; using ``foliavalidator`` from [FoLiA-Tools](https://github.com/proycon/folia-tools).
+* FoLiA upgrade; upgrades an older FoLiA version to a newer one (mostly inteneded for FoLiA v1 to FoLiA v2); uses ``foliaupgrade`` from [FoLiA-Tools](https://github
 
 ## Installation
 

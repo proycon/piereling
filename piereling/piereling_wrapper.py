@@ -115,7 +115,7 @@ for outputfile, outputtemplate_id in clamdata.program.getoutputfiles():
                 flavour = 'markdown'
         except KeyError:
             pass
-        run("pandoc --from=markdown --to=rst " + shellsafe(inputfilepath,'"') + " " + shellsafe(intermediatefile,'"') )
+        run("pandoc --from=markdown --to=rst " + shellsafe(inputfilepath,'"') + " > " + shellsafe(intermediatefile,'"') )
         run("rst2folia " + shellsafe(intermediatefile,'"') + " " + shellsafe(outputfilepath,'"') )
 
     elif outputtemplate_id == 'pdf2folia_out':
@@ -130,26 +130,26 @@ for outputfile, outputtemplate_id in clamdata.program.getoutputfiles():
 
     elif outputtemplate_id == 'docx2folia_out':
         intermediatefile = outputfilepath.replace('.folia.xml','') + '.rst'
-        run("pandoc --from=docx --to=rst " + shellsafe(inputfilepath,'"') + " " + shellsafe(intermediatefile,'"') )
+        run("pandoc --from=docx --to=rst " + shellsafe(inputfilepath,'"') + " > " + shellsafe(intermediatefile,'"') )
         run("rst2folia " + shellsafe(intermediatefile,'"') + " " + shellsafe(outputfilepath,'"') )
 
     elif outputtemplate_id == 'odt2folia_out':
         intermediatefile = outputfilepath.replace('.folia.xml','') + '.rst'
-        run("pandoc --from=odt --to=rst " + shellsafe(inputfilepath,'"') + " " + shellsafe(intermediatefile,'"') )
+        run("pandoc --from=odt --to=rst " + shellsafe(inputfilepath,'"') + " > " + shellsafe(intermediatefile,'"') )
         run("rst2folia " + shellsafe(intermediatefile,'"') + " " + shellsafe(outputfilepath,'"') )
 
     elif outputtemplate_id == 'epub2folia_out':
         intermediatefile = outputfilepath.replace('.folia.xml','') + '.rst'
-        run("pandoc --from=epub --to=rst " + shellsafe(inputfilepath,'"') + " " + shellsafe(intermediatefile,'"') )
+        run("pandoc --from=epub --to=rst " + shellsafe(inputfilepath,'"') + " > " + shellsafe(intermediatefile,'"') )
         run("rst2folia " + shellsafe(intermediatefile,'"') + " " + shellsafe(outputfilepath,'"') )
 
     elif outputtemplate_id == 'html2folia_out':
         intermediatefile = outputfilepath.replace('.folia.xml','') + '.rst'
-        run("pandoc --from=html --to=rst " + shellsafe(inputfilepath,'"') + " " + shellsafe(intermediatefile,'"') )
+        run("pandoc --from=html --to=rst " + shellsafe(inputfilepath,'"') + " > " + shellsafe(intermediatefile,'"') )
         run("html2folia " + shellsafe(intermediatefile,'"') + " " + shellsafe(outputfilepath,'"') )
 
     elif outputtemplate_id == 'conllu2folia_out':
-        run("conllu2folia --outputfile " + shellsafe(outputfilepath,'"') + " " +  shellsafe(inputfilepath,'"') )
+        run("conllu2folia --outputfile " + shellsafe(outputfilepath,'"') + " > " +  shellsafe(inputfilepath,'"') )
 
     elif outputtemplate_id == 'alpino2folia_out':
         run("alpino2folia " + shellsafe(inputfilepath,'"') + " " + shellsafe(outputfilepath,'"') )
@@ -178,6 +178,27 @@ for outputfile, outputtemplate_id in clamdata.program.getoutputfiles():
 
     elif outputtemplate_id == 'folia2html_out':
         run("folia2html " + shellsafe(inputfilepath,'"') + " > " + shellsafe(outputfilepath,'"') )
+
+    elif outputtemplate_id == 'foliavalidator_out':
+        validationmode = clamdata.get('validationmode','fail')
+        args = []
+        if validationmode == "continue":
+            args.append( "-i")
+        if clamdata.get('autodeclare',False):
+            args.append( "-a")
+        if clamdata.get('deep',False):
+            args.append( "-d")
+        if clamdata.get('quick',False):
+            args.append( "-q")
+        if clamdata.get('fixunassignedprocessor',False):
+            args.append( "--fixunassignedprocessor")
+        run("foliavalidator " + " ".join(args) + " " + shellsafe(inputfilepath,'"') + " 2> " + shellsafe(outputfilepath,'"') )
+
+    elif outputtemplate_id == 'foliaupgrade_out':
+        args = []
+        if clamdata.get('fixunassignedprocessor',False):
+            args.append( "--fixunassignedprocessor")
+        run("foliaupgrade " + " ".join(args) + " " + shellsafe(inputfilepath,'"') + " 2> " + shellsafe(outputfilepath,'"') )
 
 clam.common.status.write(statusfile, "Done",100) # status update
 

@@ -14,6 +14,11 @@ TESTDIR=`dirname $0`
 cd $TESTDIR
 HOSTNAME=$(hostname)
 
+if [ "$1" == "-v" ]; then
+    VERBOSE=1
+else
+    VERBOSE=0
+fi
 
 echo "Checking installation..." >&2
 
@@ -29,55 +34,87 @@ fi
 kill $(ps aux | grep 'piereling' | awk '{print $2}') 2>/dev/null
 sleep 2
 
+
+
 echo "Starting piereling webservice" >&2
 clamservice -d piereling.piereling 2> servicetest.server.log &
 echo "waiting 10 seconds to be sure it started..." >&2
 sleep 10
 
+CURLARGS=""
+if [ $VERBOSE -eq 1 ]; then
+    CURLARGS="-v"
+else
+    CURLARGS="-s"
+fi
+
+
 cd tests
+rm -Rf output.* #delete previous outputs
 
 function test2folia() {
     echo "${boldblue}Testing $1...${normal}" >&2
     echo "----------------------------------------------" >&2
     local OK=1
-    if ! curl -v -X PUT http://$HOSTNAME:8080/$1; then
+    echo " (creating project)">&2
+    if ! curl $CURLARGS -X PUT http://$HOSTNAME:8080/$1 > curlout; then
+        cat curlout>&2
         echo "  ${boldred}ERROR: unable to create project${normal}">&2
         OK=0
     fi
-    if ! curl -v -F "inputtemplate=${1}_in" -F "file=@$2" http://$HOSTNAME:8080/$1/input/$2; then
+    echo " (uploading input $2)">&2
+    if ! curl $CURLARGS -F "inputtemplate=${1}_in" -F "file=@$2" http://$HOSTNAME:8080/$1/input/$2 > curlout; then
+        cat curlout>&2
         echo "  ${boldred}ERROR: unable to upload input file${normal}">&2
         OK=0
-    fi
-    if ! curl -v -X POST http://$HOSTNAME:8080/$1/; then
-        echo "  ${boldred}ERROR: unable to start project${normal}">&2
-        OK=0
     else
-        if [ -z "$4" ]; then
-            sleep 5 #five seconds should hopefully be enough for processing (saves more complex polling)
-        else
-            sleep $4
-        fi
-        mkdir output
-        cd output
-        if ! curl -v http://$HOSTNAME:8080/$1/output/$3 > $3; then
-            echo "  ${boldred}ERROR: unable to get output${normal}">&2
+        echo " (running project)">&2
+        if ! curl $CURLARGS -X POST http://$HOSTNAME:8080/$1/ > curlout; then
+            cat curlout>&2
+            echo "  ${boldred}ERROR: unable to start project${normal}">&2
             OK=0
         else
-            cat $3
-            if ! foliavalidator $3; then
-                echo "  ${boldred}ERROR: folia output failed to validate${normal}">&2
+            mkdir output.$1
+            cd output.$1
+            echo " (obtaining status)">&2
+            while true; do
+                sleep 3
+                if curl $CURLARGS http://$HOSTNAME:8080/$1/ > stat; then
+                    if grep 'code="2"' stat > /dev/null; then
+                        break
+                    fi
+                else
+                    cat stat >&2
+                    echo "  ${boldred}ERROR: Obtaining status failed${normal}">&2
+                    OK=0
+                    break
+                fi
+            done
+            echo " (downloading output $3)">&2
+            if ! curl $CURLARGS http://$HOSTNAME:8080/$1/output/$3 > $3; then
+                echo "  ${boldred}ERROR: unable to get output${normal}">&2
                 OK=0
+            else
+                cat $3
+                extension="${3#*.}"
+                if [[ $extension == "folia.xml" ]]; then
+                    echo " (validating output)">&2
+                    if ! foliavalidator $3; then
+                        echo "  ${boldred}ERROR: folia output failed to validate${normal}">&2
+                        OK=0
+                    fi
+                fi
             fi
-        fi
-        cd ..
-        rm -Rf output
-        #delete the project so we don't pollute the server
-        curl -v -X DELETE http://$HOSTNAME:8080/$1
-        if [ $OK -eq 1 ]; then
-            echo "${boldgreen}Done testing $1: SUCCESS!${normal}"
-        else
-            echo "${boldred}Done testing $1: FAILURE!${normal}"
-            ALLGOOD=0
+            #delete the project so we don't pollute the server
+            curl $CURLARGS http://$HOSTNAME:8080/$1/output/error.log > $1.log
+            curl $CURLARGS -X DELETE http://$HOSTNAME:8080/$1 > curlout
+            cd ..
+            if [ $OK -eq 1 ]; then
+                echo "${boldgreen}Done testing $1: SUCCESS!${normal}"
+            else
+                echo "${boldred}Done testing $1: FAILURE!${normal}"
+                ALLGOOD=0
+            fi
         fi
     fi
 }
@@ -86,6 +123,11 @@ function test2folia() {
 test2folia txt2folia test.txt test.folia.xml
 test2folia txt2folia test2.txt test2.folia.xml
 test2folia rst2folia test.rst test.folia.xml
+test2folia md2folia test.md test.folia.xml
+test2folia docx2folia test.docx test.folia.xml
+test2folia odt2folia test.odt test.folia.xml
+test2folia foliavalidator legacytest.folia.xml legacytest.log
+test2folia foliaupgrade legacytest.folia.xml legacytest.folia.xml
 
 echo "Stopping piereling service" >&2
 kill $(ps aux | grep 'piereling' | awk '{print $2}') 2>/dev/null
