@@ -141,6 +141,7 @@ test2folia mediawiki2folia test.wiki.txt test.wiki.folia.xml
 test2folia latex2folia test.tex test.folia.xml
 test2folia conllu2folia test.conllu test.folia.xml
 test2folia naf2folia test.naf.xml test.folia.xml
+test2folia tei2folia test2.tei.xml test2.folia.xml
 test2folia pdf2folia test.pdf test.folia.xml
 test2folia foliavalidator legacytest.folia.xml legacytest.log
 test2folia foliaupgrade legacytest.folia.xml legacytest.folia.xml

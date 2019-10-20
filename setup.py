@@ -39,5 +39,5 @@ setup(
     ],
     package_data = {'piereling':['*.wsgi','*.yml'] },
     include_package_data=True,
-    install_requires=['CLAM >= 2.3', 'FoLiA-tools >= 2.2.5']
+    install_requires=['CLAM >= 2.3', 'FoLiA-tools >= 2.2.6']
 )

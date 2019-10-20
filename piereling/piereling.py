@@ -364,7 +364,7 @@ PROFILES = [
         OutputTemplate('tei2folia_out',FoLiAXMLFormat,'FoLiA XML output from TEI input',
             FLATViewer(url=FLATURL, mode='viewer') if FLATURL else None,
             FoLiAViewer(),
-            removeextensions=['.xml'],
+            removeextensions=['.tei.xml','.xml','.tei'],
             extension='.folia.xml', #set an extension or set a filename:
             multi=True
         ),
