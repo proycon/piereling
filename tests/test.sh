@@ -71,51 +71,57 @@ function test2folia() {
         echo " (running project)">&2
         if ! curl $CURLARGS -X POST http://$HOSTNAME:8080/$1/ > curlout; then
             cat curlout>&2
-            echo "  ${boldred}ERROR: unable to start project${normal}">&2
+            echo "  ${boldred}ERROR: Unable to start project${normal}">&2
             OK=0
         else
-            mkdir output.$1
-            cd output.$1
-            echo " (obtaining status)">&2
-            while true; do
-                sleep 3
-                if curl $CURLARGS http://$HOSTNAME:8080/$1/ > stat; then
-                    if grep 'code="2"' stat > /dev/null; then
-                        break
-                    fi
-                else
-                    cat stat >&2
-                    echo "  ${boldred}ERROR: Obtaining status failed${normal}">&2
-                    OK=0
-                    break
-                fi
-            done
-            echo " (downloading output $3)">&2
-            if ! curl $CURLARGS http://$HOSTNAME:8080/$1/output/$3 > $3; then
-                echo "  ${boldred}ERROR: unable to get output${normal}">&2
+            if grep 'errors="yes"' curlout > /dev/null; then
+                echo "  ${boldred}ERROR: Failed to start project${normal}">&2
                 OK=0
             else
-                cat $3
-                extension="${3#*.}"
-                if [[ $extension == "folia.xml" ]]; then
-                    echo " (validating output)">&2
-                    if ! foliavalidator $3; then
-                        echo "  ${boldred}ERROR: folia output failed to validate${normal}">&2
+                mkdir output.$1
+                cd output.$1
+                echo " (obtaining status)">&2
+                while true; do
+                    sleep 1
+                    if curl $CURLARGS http://$HOSTNAME:8080/$1/ > stat; then
+                        if grep 'code="2"' stat > /dev/null; then
+                            sleep 3
+                            break
+                        fi
+                    else
+                        cat stat >&2
+                        echo "  ${boldred}ERROR: Obtaining status failed${normal}">&2
                         OK=0
+                        break
+                    fi
+                done
+                echo " (downloading output $3)">&2
+                if ! curl $CURLARGS http://$HOSTNAME:8080/$1/output/$3 > $3; then
+                    echo "  ${boldred}ERROR: unable to get output${normal}">&2
+                    OK=0
+                else
+                    cat $3
+                    extension="${3#*.}"
+                    if [[ $extension == "folia.xml" ]]; then
+                        echo " (validating FoLiA output)">&2
+                        if ! foliavalidator $3; then
+                            echo "  ${boldred}ERROR: folia output failed to validate${normal}">&2
+                            OK=0
+                        fi
                     fi
                 fi
-            fi
-            #delete the project so we don't pollute the server
-            curl $CURLARGS http://$HOSTNAME:8080/$1/output/error.log > $1.log
-            curl $CURLARGS -X DELETE http://$HOSTNAME:8080/$1 > curlout
-            cd ..
-            if [ $OK -eq 1 ]; then
-                echo "${boldgreen}Done testing $1: SUCCESS!${normal}"
-            else
-                echo "${boldred}Done testing $1: FAILURE!${normal}"
-                ALLGOOD=0
+                #delete the project so we don't pollute the server
+                curl $CURLARGS http://$HOSTNAME:8080/$1/output/error.log > $1.log
+                curl $CURLARGS -X DELETE http://$HOSTNAME:8080/$1 > curlout
+                cd ..
             fi
         fi
+    fi
+    if [ $OK -eq 1 ]; then
+        echo "${boldgreen}Done testing $1: SUCCESS!${normal}"
+    else
+        echo "${boldred}Done testing $1: FAILURE!${normal}"
+        ALLGOOD=0
     fi
 }
 
@@ -126,6 +132,11 @@ test2folia rst2folia test.rst test.folia.xml
 test2folia md2folia test.md test.folia.xml
 test2folia docx2folia test.docx test.folia.xml
 test2folia odt2folia test.odt test.folia.xml
+test2folia html2folia test.html test.folia.xml
+test2folia mediawiki2folia test.wiki.txt test.wiki.folia.xml
+test2folia latex2folia test.tex test.folia.xml
+test2folia conllu2folia test.conllu test.folia.xml
+test2folia naf2folia test.naf.xml test.folia.xml
 test2folia foliavalidator legacytest.folia.xml legacytest.log
 test2folia foliaupgrade legacytest.folia.xml legacytest.folia.xml
 

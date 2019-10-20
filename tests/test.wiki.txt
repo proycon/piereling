@@ -1,0 +1,6 @@
+'''Stemma''' is een ander woord voor [[stamboom]]. In de historische wetenschap wordt zo'n stamboom, onder de naam ''stemma codicum'' ([[handschriftelijke genealogie]]), gebruikt om de verwantschap tussen [[Handschrift (document)|handschriften]] weer te geven.
+
+== Werkwijze ==
+Hiervoor worden de handschriften genummerd en gedateerd zodat ze op de juiste plaats van hun afstammingsgeschiedenis geplaatst kunnen worden. De hoofdletter A wordt gebruikt voor het originele handschrift. De andere handschriften krijgen ook een letter die verband kan houden met hun plaats van oorsprong of plaats van bewaring. Verdwenen handschriften waarvan men toch vermoedt dat ze ooit bestaan hebben worden ook in het stemma opgenomen en worden weergegeven door de laatste letters van het alfabet en worden tussen vierkante haken geplaatst. Ten slotte gaat men de verwantschap tussen de handschriften aanduiden. Een volle lijn duidt op een verwantschap, terwijl een stippellijn op een onzekere verwantschap duidt.
+
+[[Categorie:Literatuurwetenschap]]

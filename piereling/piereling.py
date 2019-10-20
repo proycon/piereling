@@ -132,7 +132,17 @@ class EPUBFormat(CLAMMetaData):
     name = "EPUB"
     mimetype = 'application/epub+zip'
 
-CUSTOM_FORMATS = [ TEIXMLFormat, ReStructuredTextFormat, MarkdownFormat, CONLLuFormat, AlpinoXMLFormat, NAFXMLFormat, EPUBFormat ]
+class LaTeXFormat(CLAMMetaData):
+    attributes = {'encoding':'utf-8'}
+    name = "LaTeX"
+    mimetype = 'application/x-latex'
+
+class DocBookXMLFormat(CLAMMetaData):
+    attributes = {'encoding':'utf-8'}
+    name = "DocBook XML"
+    mimetype = 'application/docbook+xml'
+
+CUSTOM_FORMATS = [ TEIXMLFormat, ReStructuredTextFormat, MarkdownFormat, CONLLuFormat, AlpinoXMLFormat, NAFXMLFormat, EPUBFormat, LaTeXFormat, DocBookXMLFormat ]
 
 # ======== ENABLED VIEWERS ===========
 
@@ -216,7 +226,7 @@ PROFILES = [
         ),
     ),
     Profile(
-        InputTemplate('epub2folia_in', EPUBFormat,"OpenDocument Text Document (odt) for conversion to FoLiA",
+        InputTemplate('epub2folia_in', EPUBFormat,"EPUB for conversion to FoLiA",
             extension='.epub',
             multi=True,
         ),
@@ -227,13 +237,48 @@ PROFILES = [
         ),
     ),
     Profile(
+        InputTemplate('latex2folia_in', LaTeXFormat,"LaTeX source for conversion to FoLiA",
+            extension='.tex',
+            multi=True,
+        ),
+        OutputTemplate('latex2folia_out',FoLiAXMLFormat,'FoLiA XML output (untokenised) from LaTeX',
+            extension='.folia.xml',
+            removeextensions=['.tex'],
+            multi=True,
+        ),
+    ),
+    Profile(
+        InputTemplate('mediawiki2folia_in', PlainTextFormat,"MediaWiki Markup (Wikipedia and others) for conversion to FoLiA",
+            StaticParameter(id='encoding',name='Encoding',description='The character encoding of the file', value='utf-8'), #note that encoding is required if you work with PlainTextFormat
+            extension='.txt',
+            multi=True,
+        ),
+        OutputTemplate('mediawiki2folia_out',FoLiAXMLFormat,'FoLiA XML output (untokenised) from MediaWiki',
+            extension='.folia.xml',
+            removeextensions=['.txt'],
+            multi=True,
+        ),
+    ),
+    Profile(
+        InputTemplate('docbook2folia_in', DocBookXMLFormat,"Docbook for conversion to FoLiA",
+            extension='.xml',
+            multi=True,
+        ),
+        OutputTemplate('docbook2folia_out',FoLiAXMLFormat,'FoLiA XML output (untokenised) from Docbook',
+            extension='.folia.xml',
+            removeextensions=['.xml','.dbk'],
+            multi=True,
+        ),
+    ),
+    Profile(
         InputTemplate('html2folia_in', HTMLFormat,"HTML for conversion to FoLiA",
+            StaticParameter(id='encoding',name='Encoding',description='The character encoding of the file', value='utf-8'), #note that encoding is required if you work with PlainTextFormat
             extension='.html',
             multi=True,
         ),
         OutputTemplate('html2folia_out',FoLiAXMLFormat,'FoLiA XML output (untokenised) from HTML',
             extension='.folia.xml',
-            removeextensions=['.html'],
+            removeextensions=['.html','.htm'],
             multi=True,
         ),
     ),

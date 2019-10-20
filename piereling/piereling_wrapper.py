@@ -143,6 +143,21 @@ for outputfile, outputtemplate_id in clamdata.program.getoutputfiles():
         run("pandoc --from=epub --to=rst " + shellsafe(inputfilepath,'"') + " > " + shellsafe(intermediatefile,'"') )
         run("rst2folia " + shellsafe(intermediatefile,'"') + " " + shellsafe(outputfilepath,'"') )
 
+    elif outputtemplate_id == 'latex2folia_out':
+        intermediatefile = outputfilepath.replace('.folia.xml','') + '.rst'
+        run("pandoc --from=latex --to=rst " + shellsafe(inputfilepath,'"') + " > " + shellsafe(intermediatefile,'"') )
+        run("rst2folia " + shellsafe(intermediatefile,'"') + " " + shellsafe(outputfilepath,'"') )
+
+    elif outputtemplate_id == 'mediawiki2folia_out':
+        intermediatefile = outputfilepath.replace('.folia.xml','') + '.rst'
+        run("pandoc --from=mediawiki --to=rst " + shellsafe(inputfilepath,'"') + " > " + shellsafe(intermediatefile,'"') )
+        run("rst2folia " + shellsafe(intermediatefile,'"') + " " + shellsafe(outputfilepath,'"') )
+
+    elif outputtemplate_id == 'docbook2folia_out':
+        intermediatefile = outputfilepath.replace('.folia.xml','') + '.rst'
+        run("pandoc --from=docbook --to=rst " + shellsafe(inputfilepath,'"') + " > " + shellsafe(intermediatefile,'"') )
+        run("rst2folia " + shellsafe(intermediatefile,'"') + " " + shellsafe(outputfilepath,'"') )
+
     elif outputtemplate_id == 'html2folia_out':
         intermediatefile = outputfilepath.replace('.folia.xml','') + '.rst'
         run("pandoc --from=html --to=rst " + shellsafe(inputfilepath,'"') + " > " + shellsafe(intermediatefile,'"') )

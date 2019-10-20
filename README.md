@@ -15,21 +15,30 @@ tools in combination with notable third-party tools such as
 annotation, and thse little worms, eating the input file on one end and secreting a conversion on its outer end, perform
 that job.
 
-We use [FoLiA](https://proycon.github.io/proycon) as our pivot format so you will mostly encounter conversions from
-or to FoLiA.  Pandoc support a huge number of other conversions between
-document formats, it is beyond the scope of his project to offer those in the webservice.
+We use [FoLiA](https://proycon.github.io/proycon) as our pivot format so you will mostly encounter conversions from or
+to FoLiA. FoLiA is a format for Linguistic Annotation that also incorporates elaborate document structure and mark-up
+facilities. Another important intermediate format used in many of our conversions through pandoc is
+[ReStructuredText](http://docutils.sourceforge.net/rst.html), a lightweight markup format.  Although, Pandoc support a
+huge number of conversions between all its supported document formats, it is beyond the scope of his project to offer
+those in the webservice.
 
 ## Available Conversions
 
 ### Conversions to FoLiA
 
+#### From Document and Markup Formats
+
 * from **plain text**; uses ``txt2folia`` from [FoLiA-Tools](https://github.com/proycon/folia-tools).
-    * If you can deliver your input as ReStructuredText or Markdown then this is is strongly preferred if you want to preserve structure and markup.
+    * In addition to an attempted extraction of text structure (paragraphs) by detecting blank lines, it also supports one-sentence-per-line and one-paragraph-per-line styles.
+    * If you can deliver your input as ReStructuredText or Markdown then this is is strongly preferred if you want to preserve structure and markup, as these formats resolve a lot of ambiguity inherent in unspecified plain text.
     * Information loss: None
 * from **ReStructuredText**; using ``rst2folia`` from [FoLiA-Tools](https://github.com/proycon/folia-tools).
     * Information loss: Minimal to None (almost all rst structures are supported)
 * from **Markdown**; via ReStructuredText using [pandoc](https://pandoc.org) and then ``rst2folia`` from [FoLiA-Tools](https://github.com/proycon/folia-tools).
     * Information loss: Minimal to None (most markdown structures are supported; exceptions are mathematical formula)
+* from **HTML**; via ReStructuredText using [pandoc](https://pandoc.org) and then ``rst2folia`` from [FoLiA-Tools](https://github.com/proycon/folia-tools).
+    * Information loss: Some; complex layout, complex tables, and imagery will generally get lost. Should only be used
+      for semantically clean and simple HTML rather than complex presentational HTML from the web.
 * from **Word** (Office Open XML, docx); via ReStructuredText using [pandoc](https://pandoc.org) and then ``rst2folia`` from [FoLiA-Tools](https://github.com/proycon/folia-tools).
     * Information loss: Some; complex layout, complex tables, and imagery will generally get lost.
     * Note that the Word 2007 DOC format from up until 2007 is not supported, only the modern DOCX variant.
@@ -37,14 +46,31 @@ document formats, it is beyond the scope of his project to offer those in the we
     * Information loss: Some; complex layout, complex tables, and imagery will generally get lost.
 * from **EPUB**; via ReStructuredText using [pandoc](https://pandoc.org) and then ``rst2folia`` from [FoLiA-Tools](https://github.com/proycon/folia-tools).
     * Information loss: Some; complex layout, complex tables, and imagery will generally get lost.
-* from **HTML**; via ReStructuredText using [pandoc](https://pandoc.org) and then ``rst2folia`` from [FoLiA-Tools](https://github.com/proycon/folia-tools).
-    * Information loss: Some; complex layout, complex tables, and imagery will generally get lost. Should only be used
-      for semantically clean and simple HTML rather than complex presentational HTML from the web.
+* from **LaTeX**; via ReStructuredText using [pandoc](https://pandoc.org) and then ``rst2folia`` from [FoLiA-Tools](https://github.com/proycon/folia-tools).
+    * Information loss: Some to considerable; complex layout, complex tables, custom packages, math, and imagery will generally get lost.
+* from **MediaWiki** (as used by Wikipedia); via ReStructuredText using [pandoc](https://pandoc.org) and then ``rst2folia`` from [FoLiA-Tools](https://github.com/proycon/folia-tools).
+    * Information loss: Some; complex layout, complex tables. Wikipedia specific elements.
+* from **DocBook**; via ReStructuredText using [pandoc](https://pandoc.org) and then ``rst2folia`` from [FoLiA-Tools](https://github.com/proycon/folia-tools).
+    * Information loss: Unknown
 * from **TEI P5 XML** (Text Encoding Initiative); uses ``tei2folia`` from [FoLiA-Tools](https://github.com/proycon/folia-tools).
     * TEI is a very extensive and flexible format with many different forms
     * Information loss: Our converter will only work for a certain subset of TEI and may fail on others. Though we
       support a lot of TEI elements, there is also still a lot that is not covered by the converter. There will be
       comments in the output for anything that could not be converted properly.
+* from **PDF**; uses ``pdftotext`` from [Poppler](https://poppler.freedesktop.org) and then ``txt2folia`` from FoLiA-tools.
+    * Only works for PDFs with embedded text, not for imagery which would require OCR!
+    * Information loss: **Considerable!** PDF conversion is notoriously difficult, the layout of the document will most probably get lost in the conversion (especially in case of multi-columned output). The markup will get lost too.
+    * Structural conversion is very inaccurate (i.e. paragraphs will not be nicely mapped) and produces ugly FoLiA.
+    * Always avoid this conversion if you can!
+* from **hOCR**; uses ``FoLiA-hocr`` from [foliautils](https://github.com/LanguageMachines/foliautils).
+    * hOCR is a standard format outputted by OCR systems such as [Tesseract](https://github.com/tesseract-ocr/tesseract).
+    * Information loss: Unknown
+* from **ALTO**; uses ``FoLiA-alto`` from [foliautils](https://github.com/LanguageMachines/foliautils).
+    * ALTO is a standard format for the description of text OCR and layout information of pages for digitized material.
+    * Information loss: Unknown
+
+#### From other Linguistic Annotation Formats
+
 * from **NAF** (NLP Annotation Format) to FoLiA; uses ``naf2folia``  from [NAFFoLiAPy](https://github.com/cltl/naffoliapy).
     * This converter is still in an early and experimental stage.
     * Information loss: Not all annotation layers are implemented yet. Those that are should suffer minimal to no
@@ -53,17 +79,6 @@ document formats, it is beyond the scope of his project to offer those in the we
     * Information loss: None
 * from **Alpino XML**; uses ``alpino2folia`` from [FoLiA-Tools](https://github.com/proycon/folia-tools).
     * Information loss: Minimal to None
-* from **PDF**; uses ``pdftotext`` from [Poppler](https://poppler.freedesktop.org) and then ``txt2folia`` from FoLiA-tools.
-    * Only works for PDFs with embedded text, not for imagery which would require OCR!
-    * Information loss: **Considerable!** PDF conversion is notoriously difficult, the layout of the document will most probably get lost in the conversion (especially in case of multi-columned output). The markup will get lost too.
-    * Structural conversion is very inaccurate (i.e. paragraph will not be nicely mapped) and produces ugly FoLiA.
-    * Always avoid this conversion if you can!
-* from **hOCR**; uses ``FoLiA-hocr`` from [foliautils](https://github.com/LanguageMachines/foliautils).
-    * hOCR is a standard format outputted by OCR systems such as [Tesseract](https://github.com/tesseract-ocr/tesseract).
-    * Information loss: Unknown
-* from **ALTO**; uses ``FoLiA-alto`` from [foliautils](https://github.com/LanguageMachines/foliautils).
-    * ALTO is a standard format for the description of text OCR and layout information of pages for digitized material.
-    * Information loss: Unknown
 
 ### Conversions from FoLiA
 
