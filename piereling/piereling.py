@@ -432,16 +432,25 @@ COMMAND = WEBSERVICEDIR + "/piereling_wrapper.py $DATAFILE $STATUSFILE $OUTPUTDI
 #are a list of instances from common/parameters.py
 
 PARAMETERS =  [
-    ('Validation Parameters', [
-        ChoiceParameter(id='validationmode',name='Validation mode',description='Validation behaviour', choices=[('fail','Fail on validation errors'),('continue','Continue on validation errors')],default='fail'),
-        BooleanParameter(id='autodeclare',name='Autodeclare',description='Attempt to automatically declare missing annotations'),
-        BooleanParameter(id='deep',name='Deep Validation',description='Do deep validation (verifies tag sets)'),
-        BooleanParameter(id='quick',name='Quicker Validation',description='Do quicker validation by skipping the check against the RelaxNG schema'),
-        #ChoiceParameter(id='casesensitive',name='Case Sensitivity',description='Enable case sensitive behaviour?', choices=['yes','no'],default='no'),
-        #StringParameter(id='author',name='Author',description='Sign output metadata with the specified author name',maxlength=255),
+    ("ReStructuredText Parameters", [
+        BooleanParameter(id="strip-relative-links",name="Strip relative links",description="Strip relative hyperlinks"),
+        BooleanParameter(id="strip-links",name="Strip links",description="Strip all hyperlinks"),
+        BooleanParameter(id="strip-style",name="Strip style",description="Strip all text styling (bold, italics etc)"),
+        BooleanParameter(id="strip-gaps",name="Strip gaps",description="Strip all gaps (includes verbatim and code blocks)"),
+        BooleanParameter(id="strip-raw",name="Strip raw",description="Strip all raw content (do not encode as gaps)"),
+        BooleanParameter(id="strip-tables",name="Strip tables",description="Strip tables"),
+        BooleanParameter(id="ignore-lineblocks",name="Ignore lineblocks",description="Ignore lineblocks, treat as normal paragraphs."),
     ] ),
-    ('Upgrade Parameters', [
-        BooleanParameter(id='fixunassignedprocessor',name='Fix unassigned processor',description='Fixes invalid FoLiA that does not explicitly assign a processor to an annotation when multiple processors are possible (and there is therefore no default). The last processor will be used in this case.'),
+    ("Validation Parameters", [
+        ChoiceParameter(id="validationmode",name="Validation mode",description="Validation behaviour", choices=[("fail","Fail on validation errors"),("continue","Continue on validation errors")],default="fail"),
+        BooleanParameter(id="autodeclare",name="Autodeclare",description="Attempt to automatically declare missing annotations"),
+        BooleanParameter(id="deep",name="Deep Validation",description="Do deep validation (verifies tag sets)"),
+        BooleanParameter(id="quick",name="Quicker Validation",description="Do quicker validation by skipping the check against the RelaxNG schema"),
+        #ChoiceParameter(id="casesensitive",name="Case Sensitivity",description="Enable case sensitive behaviour?", choices=["yes","no"],default="no"),
+        #StringParameter(id="author",name="Author",description="Sign output metadata with the specified author name",maxlength=255),
+    ] ),
+    ("Upgrade Parameters", [
+        BooleanParameter(id="fixunassignedprocessor",name="Fix unassigned processor",description="Fixes invalid FoLiA that does not explicitly assign a processor to an annotation when multiple processors are possible (and there is therefore no default). The last processor will be used in this case."),
     ] ),
 
 ]

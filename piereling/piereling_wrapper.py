@@ -38,6 +38,8 @@ import shutil
 import clam.common.data
 import clam.common.status
 
+import folia.main as folia
+
 #When the wrapper is started, the current working directory corresponds to the project directory, input files are in input/ , output files should go in output/ .
 
 #make a shortcut to the shellsafe() function
@@ -88,6 +90,7 @@ def run(cmd):
 # basis of what input files. It is the concretisation of the profiles and is the
 # most elegant method to set up your wrapper.
 
+
 for outputfile, outputtemplate_id in clamdata.program.getoutputfiles():
     clam.common.status.write(statusfile, "Processing " + os.path.basename(str(outputfile)),50) # status update
     #(Use outputtemplate_id to match against output templates)
@@ -97,11 +100,30 @@ for outputfile, outputtemplate_id in clamdata.program.getoutputfiles():
     inputfile, inputtemplate = clamdata.program.getinputfile(outputfile)
     inputfilepath = str(inputfile)
 
+    docid = folia.makencname(inputfile.filename.split('.')[0])
+    rst2folia_args = [ '--docid=' + shellsafe(docid, '"') ]
+    for opt in ("strip-relative-links", "strip-links","strip-style", "strip-gaps", "strip-raw", "strip-tables", "ignore-lineblocks" ):
+        if clamdata.get(opt):
+            rst2folia_args.append("--" + opt)
+
     if outputtemplate_id == 'rst2folia_out':
-        run("rst2folia " + shellsafe(inputfilepath,'"') + " " + shellsafe(outputfilepath,'"') )
+        run("rst2folia " + " ".join(rst2folia_args) + " " + shellsafe(inputfilepath,'"') + " " + shellsafe(outputfilepath,'"') )
 
     elif outputtemplate_id == 'txt2folia_out':
-        run("txt2folia -o '-' " + shellsafe(inputfilepath,'"') + " > " + shellsafe(outputfilepath,'"') )
+        txt2folia_args = [ '--id=' + shellsafe(docid, '"') ]
+        if 'style' in inputfile.metadata:
+            style = inputfile.metadata["style"]
+            if style == "sentenceperline":
+                txt2folia_args.append("--sentenceperline")
+            elif style == "paragraphperline":
+                txt2folia_args.append("--paragraphperline")
+            elif style == "undetermined":
+                txt2folia_args.append("--nostructure")
+            else:
+                txt2folia_args.append("--paragraphs")
+        else:
+            txt2folia_args.append("--paragraphs")
+        run("txt2folia -o '-' " + " ".join(txt2folia_args) + " " + shellsafe(inputfilepath,'"') + " > " + shellsafe(outputfilepath,'"') )
 
     elif outputtemplate_id == 'md2folia_out':
         intermediatefile = outputfilepath.replace('.folia.xml','') + '.rst'
@@ -116,13 +138,12 @@ for outputfile, outputtemplate_id in clamdata.program.getoutputfiles():
         except KeyError:
             pass
         run("pandoc --from=markdown --to=rst " + shellsafe(inputfilepath,'"') + " > " + shellsafe(intermediatefile,'"') )
-        run("rst2folia " + shellsafe(intermediatefile,'"') + " " + shellsafe(outputfilepath,'"') )
+        run("rst2folia " + " ".join(rst2folia_args) + " " + shellsafe(intermediatefile,'"') + " " + shellsafe(outputfilepath,'"') )
 
     elif outputtemplate_id == 'pdf2folia_out':
         intermediatefile = outputfilepath.replace('.folia.xml','') + '.txt'
         run("pdftotext -nopagebrk " + shellsafe(inputfilepath,'"') + " - > " + shellsafe(intermediatefile,'"') )
-        run("txt2folia -o '-' " + shellsafe(intermediatefile,'"') + " > " + shellsafe(outputfilepath,'"') )
-
+        run("txt2folia -o '-' --id=" + shellsafe(docid, '"') + " " + shellsafe(intermediatefile,'"') + " > " + shellsafe(outputfilepath,'"') )
         #to be implemented:
         #intermediatefile = outputfilepath.replace('.folia.xml','') + '.pdf2xml.xml'
         #run("pdftohtml -s -i -noframes -stdout -xml " + shellsafe(inputfilepath,'"') + " " + shellsafe(intermediatefile,'"') )
@@ -131,37 +152,37 @@ for outputfile, outputtemplate_id in clamdata.program.getoutputfiles():
     elif outputtemplate_id == 'docx2folia_out':
         intermediatefile = outputfilepath.replace('.folia.xml','') + '.rst'
         run("pandoc --from=docx --to=rst " + shellsafe(inputfilepath,'"') + " > " + shellsafe(intermediatefile,'"') )
-        run("rst2folia " + shellsafe(intermediatefile,'"') + " " + shellsafe(outputfilepath,'"') )
+        run("rst2folia " + " ".join(rst2folia_args) + " " + shellsafe(intermediatefile,'"') + " " + shellsafe(outputfilepath,'"') )
 
     elif outputtemplate_id == 'odt2folia_out':
         intermediatefile = outputfilepath.replace('.folia.xml','') + '.rst'
         run("pandoc --from=odt --to=rst " + shellsafe(inputfilepath,'"') + " > " + shellsafe(intermediatefile,'"') )
-        run("rst2folia " + shellsafe(intermediatefile,'"') + " " + shellsafe(outputfilepath,'"') )
+        run("rst2folia " + " ".join(rst2folia_args) + " " + shellsafe(intermediatefile,'"') + " " + shellsafe(outputfilepath,'"') )
 
     elif outputtemplate_id == 'epub2folia_out':
         intermediatefile = outputfilepath.replace('.folia.xml','') + '.rst'
         run("pandoc --from=epub --to=rst " + shellsafe(inputfilepath,'"') + " > " + shellsafe(intermediatefile,'"') )
-        run("rst2folia " + shellsafe(intermediatefile,'"') + " " + shellsafe(outputfilepath,'"') )
+        run("rst2folia " + " ".join(rst2folia_args) + " " + shellsafe(intermediatefile,'"') + " " + shellsafe(outputfilepath,'"') )
 
     elif outputtemplate_id == 'latex2folia_out':
         intermediatefile = outputfilepath.replace('.folia.xml','') + '.rst'
         run("pandoc --from=latex --to=rst " + shellsafe(inputfilepath,'"') + " > " + shellsafe(intermediatefile,'"') )
-        run("rst2folia " + shellsafe(intermediatefile,'"') + " " + shellsafe(outputfilepath,'"') )
+        run("rst2folia " + " ".join(rst2folia_args) + " " + shellsafe(intermediatefile,'"') + " " + shellsafe(outputfilepath,'"') )
 
     elif outputtemplate_id == 'mediawiki2folia_out':
         intermediatefile = outputfilepath.replace('.folia.xml','') + '.rst'
         run("pandoc --from=mediawiki --to=rst " + shellsafe(inputfilepath,'"') + " > " + shellsafe(intermediatefile,'"') )
-        run("rst2folia " + shellsafe(intermediatefile,'"') + " " + shellsafe(outputfilepath,'"') )
+        run("rst2folia " + " ".join(rst2folia_args) + " " + shellsafe(intermediatefile,'"') + " " + shellsafe(outputfilepath,'"') )
 
     elif outputtemplate_id == 'docbook2folia_out':
         intermediatefile = outputfilepath.replace('.folia.xml','') + '.rst'
         run("pandoc --from=docbook --to=rst " + shellsafe(inputfilepath,'"') + " > " + shellsafe(intermediatefile,'"') )
-        run("rst2folia " + shellsafe(intermediatefile,'"') + " " + shellsafe(outputfilepath,'"') )
+        run("rst2folia " + " ".join(rst2folia_args) + " " + shellsafe(intermediatefile,'"') + " " + shellsafe(outputfilepath,'"') )
 
     elif outputtemplate_id == 'html2folia_out':
         intermediatefile = outputfilepath.replace('.folia.xml','') + '.rst'
         run("pandoc --from=html --to=rst " + shellsafe(inputfilepath,'"') + " > " + shellsafe(intermediatefile,'"') )
-        run("html2folia " + shellsafe(intermediatefile,'"') + " " + shellsafe(outputfilepath,'"') )
+        run("rst2folia " + " ".join(rst2folia_args) + " " + shellsafe(intermediatefile,'"') + " " + shellsafe(outputfilepath,'"') )
 
     elif outputtemplate_id == 'conllu2folia_out':
         run("conllu2folia --outputfile " + shellsafe(outputfilepath,'"') + " > " +  shellsafe(inputfilepath,'"') )
