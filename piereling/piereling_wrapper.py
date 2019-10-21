@@ -142,7 +142,7 @@ for outputfile, outputtemplate_id in clamdata.program.getoutputfiles():
 
     elif outputtemplate_id == 'pdf2folia_out':
         intermediatefile = outputfilepath.replace('.folia.xml','') + '.txt'
-        run("pdftotext -nopgbrk -nodiag " + shellsafe(inputfilepath,'"') + " - > " + shellsafe(intermediatefile,'"') )
+        run("pdftotext -nopgbrk " + shellsafe(inputfilepath,'"') + " - > " + shellsafe(intermediatefile,'"') )
         run("txt2folia -o '-' --id=" + shellsafe(docid, '"') + " " + shellsafe(intermediatefile,'"') + " > " + shellsafe(outputfilepath,'"') )
         #to be implemented:
         #intermediatefile = outputfilepath.replace('.folia.xml','') + '.pdf2xml.xml'
