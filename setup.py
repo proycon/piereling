@@ -16,7 +16,7 @@ def getreadme():
 
 setup(
     name = "piereling",
-    version = "0.1",
+    version = "0.1.1",
     author = "Maarten van Gompel",
     description = ("Piereling is a webservice and web-application to convert between a variety of document formats, mostly from and to FoLiA XML. It is intended for NLP pipelines."),
     license = "GPL",
