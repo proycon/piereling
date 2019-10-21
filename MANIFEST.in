@@ -1,0 +1,4 @@
+include README.rst
+include piereling/*.py
+include piereling/*.wsgi
+include piereling/*.yml
