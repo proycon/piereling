@@ -55,8 +55,16 @@ SYSTEM_VERSION = 0.1
 #(If you can derive this dynamically then that is strongly recommended!)
 SYSTEM_AUTHOR = "Maarten van Gompel"
 
+SYSTEM_AFFILIATION = "Centre for Language and Speech Technology, Radboud University"
+
 #How to reach the authors?
 SYSTEM_EMAIL = "proycon@anaproy.nl"
+
+SYSTEM_LICENSE = "GNU Public License v3"
+
+SYSTEM_URL = "https://github.com/proycon/piereling"
+
+SYSTEM_COVER_URL = "https://raw.githubusercontent.com/proycon/piereling/master/logo.png"
 
 FLATURL = None
 
@@ -157,6 +165,7 @@ CUSTOM_FORMATS = [ TEIXMLFormat, ReStructuredTextFormat, MarkdownFormat, CONLLuF
 
 #Here you can specify additional interface options (space separated list), see the documentation for all allowed options
 #INTERFACEOPTIONS = "inputfromweb" #allow CLAM to download its input from a user-specified url
+INTERFACEOPTIONS = "centercover,coverheight100"
 
 # ======== PREINSTALLED DATA ===========
 
