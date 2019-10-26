@@ -266,6 +266,9 @@ If you instead seek to do conversions locally on the command line then
 you have no need for Piereling and should simply invoke the
 aforementioned conversion tools directly.
 
+A public instance of this webservice is available at ``https://webservices-lst.science.ru.nl/piereling``, register for a
+free account at ``https://webservices-lst.science.ru.nl`` first.
+
 Related Tools
 -------------
 
