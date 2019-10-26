@@ -114,27 +114,27 @@ class TEIXMLFormat(CLAMMetaData):
     mimetype = 'text/tei+xml'
 
 class ReStructuredTextFormat(CLAMMetaData):
-    attributes = {'encoding':'utf-8'}
+    attributes = {'encoding': StaticParameter('encoding','Encoding',value='utf-8')}
     name = "ReStructuredText"
     mimetype = 'text/rst'
 
 class MarkdownFormat(CLAMMetaData):
-    attributes = {'encoding':'utf-8'}
+    attributes = {'encoding': StaticParameter('encoding','Encoding',value='utf-8')}
     name = "Markdown Text"
     mimetype = 'text/markdown'
 
 class CONLLuFormat(CLAMMetaData):
-    attributes = {'encoding':'utf-8'}
+    attributes = {'encoding': StaticParameter('encoding','Encoding',value='utf-8')}
     name = "CONLL-U"
     mimetype = 'text/plain'
 
 class AlpinoXMLFormat(CLAMMetaData):
-    attributes = {'encoding':'utf-8'}
+    attributes = {'encoding': StaticParameter('encoding','Encoding',value='utf-8')}
     name = "Alpino XML"
     mimetype = 'text/alpino+xml'
 
 class NAFXMLFormat(CLAMMetaData):
-    attributes = {'encoding':'utf-8'}
+    attributes = {'encoding': StaticParameter('encoding','Encoding',value='utf-8')}
     name = "NAF XML"
     mimetype = 'text/naf+xml'
 
@@ -143,12 +143,11 @@ class EPUBFormat(CLAMMetaData):
     mimetype = 'application/epub+zip'
 
 class LaTeXFormat(CLAMMetaData):
-    attributes = {'encoding':'utf-8'}
+    attributes = {'encoding': StaticParameter('encoding','Encoding',value='utf-8')}
     name = "LaTeX"
     mimetype = 'application/x-latex'
 
 class DocBookXMLFormat(CLAMMetaData):
-    attributes = {'encoding':'utf-8'}
     name = "DocBook XML"
     mimetype = 'application/docbook+xml'
 
