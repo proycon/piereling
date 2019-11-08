@@ -92,6 +92,9 @@ def run(cmd):
 
 
 for outputfile, outputtemplate_id in clamdata.program.getoutputfiles():
+    if outputtemplate_id == "errorlog":
+        continue
+
     clam.common.status.write(statusfile, "Processing " + os.path.basename(str(outputfile)),50) # status update
     #(Use outputtemplate_id to match against output templates)
     #(You can access output metadata using outputfile.metadata[parameter_id])
