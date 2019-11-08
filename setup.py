@@ -16,7 +16,7 @@ def getreadme():
 
 setup(
     name = "piereling",
-    version = "0.1.2",
+    version = "0.2",
     author = "Maarten van Gompel",
     description = ("Piereling is a webservice and web-application to convert between a variety of document formats, mostly from and to FoLiA XML. It is intended for NLP pipelines."),
     license = "GPL",
@@ -39,5 +39,5 @@ setup(
     ],
     package_data = {'piereling':['*.wsgi','*.yml'] },
     include_package_data=True,
-    install_requires=['CLAM >= 2.3', 'FoLiA-tools >= 2.2.6']
+    install_requires=['CLAM >= 3.0', 'FoLiA-tools >= 2.2.6']
 )
