@@ -49,7 +49,7 @@ SYSTEM_DESCRIPTION = "Piereling can convert a wide variety of document formats t
 
 #A version label of the underlying tool and/or this CLAM wrapper
 #(If you can derive this dynamically then that is strongly recommended!)
-SYSTEM_VERSION = "0.2"
+SYSTEM_VERSION = "0.2.1"
 
 #The author(s) of the underlying tool and/or this CLAM wrapper
 #(If you can derive this dynamically then that is strongly recommended!)
@@ -111,7 +111,7 @@ STYLE = 'classic'
 class TEIXMLFormat(CLAMMetaData):
     attributes = {}
     name = "TEI P5 XML"
-    mimetype = 'text/tei+xml'
+    mimetype = 'application/tei+xml'
 
 class ReStructuredTextFormat(CLAMMetaData):
     attributes = {'encoding': StaticParameter('encoding','Encoding',value='utf-8')}
