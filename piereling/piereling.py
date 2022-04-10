@@ -29,7 +29,7 @@ import clam
 import sys
 import os
 
-REQUIRE_VERSION = 3.0
+REQUIRE_VERSION = "3.1.5"
 
 CLAMDIR = clam.__path__[0] #directory where CLAM is installed, detected automatically
 WEBSERVICEDIR = os.path.dirname(os.path.abspath(__file__)) #directory where this webservice is installed, detected automatically
@@ -49,7 +49,7 @@ SYSTEM_DESCRIPTION = "Piereling can convert a wide variety of document formats t
 
 #A version label of the underlying tool and/or this CLAM wrapper
 #(If you can derive this dynamically then that is strongly recommended!)
-SYSTEM_VERSION = "0.2.1"
+SYSTEM_VERSION = "0.3"
 
 #The author(s) of the underlying tool and/or this CLAM wrapper
 #(If you can derive this dynamically then that is strongly recommended!)

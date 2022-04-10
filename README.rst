@@ -240,16 +240,18 @@ order for all convertors to work, this includes:
 -  `foliautils <https://github.com/LanguageMachines/foliautils>`__
 -  `poppler-utils <https://poppler.freedesktop.org>`__
 
-For production use, we recommend using uwsgi in combination with a
-webserver such as Apache (with mod_uwsgi_proxy), or nginx. A uwsgi
-configuration has been generated (``piereling.example.ini``); it is
-specific to the host you deploy the webservice on. This in turn loads
-the wsgi script (``piereling.wsgi``), which loads your webservice.
+A ``Dockerfile`` is provided for deployment in production environments.
 
-Sample configurations for nginx and Apache have been generated as a
-starting point, add these to your server and then use the
-``./startserver_production.sh`` script to launch CLAM using uwsgi. If
-you use LaMachine, all this has already been set up for you.
+From the repository root, build as follows::
+
+    $ docker build -t proycon/piereling .
+
+Consult the [Dockerfile](Dockerfile) for various build-time parameters that you may want to set for your own production environment.
+
+When running, mount the path where you want the user data stored into the container, a directory `frog` will be created here::
+
+$ docker run -p 8080:80 -v /path/to/data/dir:/data proycon/piereling
+
 
 Usage
 -----
@@ -266,8 +268,7 @@ If you instead seek to do conversions locally on the command line then
 you have no need for Piereling and should simply invoke the
 aforementioned conversion tools directly.
 
-A public instance of this webservice is available at ``https://webservices-lst.science.ru.nl/piereling``, register for a
-free account at ``https://webservices-lst.science.ru.nl`` first.
+A public instance of this webservice is available at ``https://webservices.cls.ru.nl/piereling``.
 
 Related Tools
 -------------
