@@ -1,5 +1,5 @@
 docker:
-	docker build -t proycon/piereling:latest .
+	docker build --no-cache -t proycon/piereling:latest .
 
 docker-dev:
-	docker build -t proycon/piereling:dev --build-arg VERSION=development .
+	docker build --no-cache -t proycon/piereling:dev .
