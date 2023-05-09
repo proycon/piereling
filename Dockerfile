@@ -2,7 +2,7 @@ FROM alpine:latest
 LABEL org.opencontainers.image.authors="Maarten van Gompel <proycon@anaproy.nl>"
 LABEL description="Piereling webservice"
 
-RUN apk add python3 py3-pip py3-yaml py3-ruamel.yaml py3-requests py3-matplotlib py3-markdown py3-rdflib py3-lxml py3-wheel cython git dasel curl recode gawk poppler-utils
+RUN apk add python3 py3-pip py3-yaml py3-ruamel.yaml py3-requests py3-matplotlib py3-markdown py3-rdflib py3-lxml py3-wheel cython git dasel curl recode gawk poppler-utils zip
 
 #pandoc is not in stable yet, grab from edge/community:
 RUN apk add --repository=https://dl-cdn.alpinelinux.org/alpine/edge/community/ pandoc
